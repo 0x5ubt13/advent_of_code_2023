@@ -52,19 +52,29 @@ def parse_numbers(f):
 
 
 def solve(grid, numbers):
-    for row in len(grid):
-        for k, v in numbers.items():
-            # Get number position
-            
+    # Loop over the rows of the grid
+    for row in range(len(grid)):
+        print(f"row {row}")
+        # Loop over the dictionary values matching the current grid a row
+        for number in numbers[row]:
+            print(f"row: {row}, number: {number}")
 
-            # Check if number is surrounded by symbols
+            for digit in number:
+                # Get digit position
+                print(f"digit {digit}")
 
-            num_position = grid[k][]
-            up, upleft, left, leftdown, down, downright, right, upright = grid[k][] 
-            if grid[]
+
+                # for digit in range(digits):
+                    # num_position = grid[k][]
+                
+                # Check if number is surrounded by symbols
+                
+
+                # up, upleft, left, leftdown, down, downright, right, upright = grid[k][] 
+                # if grid[]
 
 def main():
-    with open("./test_input_03.txt", "r") as f:
+    with open("test_input_03.txt", "r") as f:
         grid = parse_file(f)
         numbers = parse_numbers(grid)
         solve(grid, numbers)
