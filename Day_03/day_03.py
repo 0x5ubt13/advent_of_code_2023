@@ -33,51 +33,133 @@ def parse_file(f):
     # print(total)
 
 def parse_numbers(f):
-    index = 0
+    index_row = 0
     numbers_map = {}
+    """
+    numbers_map{
+        index X: nums[
+            {
+                digits: "",
+                position: [Y, Y, Y]
+            },
+            {
+                digits: "",
+                position: [Y, Y, Y]
+            }]
+        }  
+    """
     for row in range(len(f)):
-        nums = ''
         nums_row = []
+        new_num = {"digits": "", "position": []}
+        index_column = 0
+        previous = "."
         for col in f[row]:
             if col.isalnum():
-                nums += col
+                new_num["digits"] += col
+                new_num["position"].append(index_column)
             else:
-                if nums[:-1].isalnum():
-                    nums_row.append(nums)
-                    nums = ''
-        numbers_map[index] = nums_row
-        index += 1
+                if previous.isalnum():
+                    nums_row.append(new_num)
+                    new_num = {"digits": "", "position": []}
+            index_column += 1
+            previous = col
+
+        # If there's a number dwindling without having been added, add it before the row is over
+        if new_num["digits"] != "":
+            nums_row.append(new_num)
+            new_num = {"digits": "", "position": []}
+        numbers_map[index_row] = nums_row
+        index_row += 1
     
     return numbers_map
 
 
-def solve(grid, numbers):
-    # Loop over the rows of the grid
-    for row in range(len(grid)):
-        print(f"row {row}")
-        # Loop over the dictionary values matching the current grid a row
-        for number in numbers[row]:
-            print(f"row: {row}, number: {number}")
+def assign_coordinates(grid, x, y):
+    # Assign coordinates
+    valid_coordinates = []
 
-            for digit in number:
-                # Get digit position
-                print(f"digit {digit}")
+    try: 
+        # up
+        valid_coordinates.append(grid[x][y-1])    
+    except: IndexError
 
+    try: 
+        # up - left
+        valid_coordinates.append(grid[x-1][y-1])    
+    except: IndexError
+    
+    try: 
+        # left
+        valid_coordinates.append(grid[x-1][y])    
+    except: IndexError
+    
+    try: 
+        # down - left
+        valid_coordinates.append(grid[x-1][y+1])    
+    except: IndexError
+    
+    try: 
+        # down
+        valid_coordinates.append(grid[x][y+1])    
+    except: IndexError
+    
+    try: 
+        # down - right
+        valid_coordinates.append(grid[x+1][y+1])    
+    except: IndexError
+    
+    try: 
+        # right
+        valid_coordinates.append(grid[x+1][y])    
+    except: IndexError
+    
+    try: 
+        # up - right
+        valid_coordinates.append(grid[x+1][y-1])    
+    except: IndexError
 
-                # for digit in range(digits):
-                    # num_position = grid[k][]
+    return valid_coordinates
+
+def solve_try2(grid, numbers_dict):
+    total = 0
+    
+    # Loop through the entries of the dictionary and check surroundings. If symbol detected, sum the number
+    for x, numbers in numbers_dict.items():
+        for number in numbers:
+            found = False
+            for y in number["position"]:
+                # print(f"row {x+1}, number {number}, y: {y}")
+
+                # Assign coordinates
+                coordinates = assign_coordinates(grid, x, y)
+
+                # Check coordinates
+                for coord in coordinates:
+                    if not coord.isalnum() and coord != "." and not found:
+                        # print(f"Symbol detected: {coord} | x: {x+1}, number: {number}, y: {y}")
+                        total += int(number["digits"])
+                        found = True
+                        break
                 
-                # Check if number is surrounded by symbols
-                
+            # if not found:
+                # print(f"row: {x} | number {number['digits']} not found")
 
-                # up, upleft, left, leftdown, down, downright, right, upright = grid[k][] 
-                # if grid[]
+    
+    print(total)
+
+    # 550435 low
+
+    # return total
+
 
 def main():
-    with open("test_input_03.txt", "r") as f:
+    with open("input_03.txt", "r") as f:
         grid = parse_file(f)
         numbers = parse_numbers(grid)
-        solve(grid, numbers)
+        # solve(grid, numbers)
+        solve_try2(grid, numbers)
+
+
 
 
 if __name__ == '__main__':
