@@ -9,7 +9,8 @@ def solve_day_5():
         "water_to_light": [],
         "light_to_temperature": [],
         "temperature_to_humidity": [],
-        "humidity_to_location": []
+        "humidity_to_location": [],
+        "locations": [],
     }
     key = ""
     # seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature, temperature_to_humidity, humidity_to_location = False, False, False, False, False, False, False
@@ -52,22 +53,14 @@ def solve_day_5():
 
     for k, v in maps.items():
         print("k:", k, "v:", v)
+    
+    for seed in maps["seeds"]:
+        for array in maps["seed_to_soil"]:
+            destination_range_start = array[0]
+            source_range_start = array[1]
+            range_length = array[2]
+            for destination_num, source_num in range(range_length):
 
-        # match key:
-        #     case "seed_to_soil":
-        #         maps["key"].append(line)
-        #     case "soil_to_fertilizer":
-        #         maps["soil_to_fertilizer"].append(line)
-        #     case "fertilizer_to_water":
-        #         maps["fertilizer_to_water"].append(line)
-        #     case "water_to_light":
-        #         maps["water_to_light"].append(line)
-        #     case "light_to_temperature":
-        #         maps["light_to_temperature"].append(line)
-        #     case "temperature_to_humidity":
-        #         maps["temperature_to_humidity"].append(line)
-        #     case "humidity-to-location":
-        #         maps["humidity-to-location"].append(line)
         
 def main():
     solve_day_5()
