@@ -56,10 +56,11 @@ def solve_day_5():
     
     for seed in maps["seeds"]:
         for array in maps["seed_to_soil"]:
-            destination_range_start = array[0]
-            source_range_start = array[1]
-            range_length = array[2]
-            for destination_num, source_num in range(range_length):
+            destination_range_start = int(array[0])
+            source_range_start = int(array[1])
+            range_length = int(array[2])
+            for destination_num in range(destination_range_start, destination_range_start + range_length):
+                print(destination_num)
 
         
 def main():
